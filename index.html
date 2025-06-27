@@ -4,166 +4,416 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IA Tutor Virtual - PCCPMN</title>
-    <link rel="icon" href="https://raw.githubusercontent.com/do...DECURSADO/refs/heads/main/Favicon%20AI.ico" type="image/x-icon">
+    <link rel="icon" href="https://raw.githubusercontent.com/doinGlobalContents/MGPPIA-COORDINACIONDECURSADO/refs/heads/main/Favicon%20AI.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Fuente Poppins desde Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --verde: #99cc06;
+            --gris-oscuro: #262626;
+        }
         body {
-            font-family: Poppins, sans-serif;
-            color: #262626;
+            font-family: 'Poppins', POPPINS, sans-serif;
+            color: var(--gris-oscuro);
             margin: 0;
             padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
+            height: 100vh;
+            background: url('AI-Academy-MGPPIA.png') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
         }
         header {
             width: 100%;
-            padding: 20px 0;
             display: flex;
             justify-content: center;
-            background-color: #fff;
+            align-items: center;
+            background: linear-gradient(to bottom, #dddddd, #ffffff);
+            border-bottom: 1px solid #ddd;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+            height: 100px;
+            padding-top: 19px;
+            padding-bottom: 19px;
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
         }
         h1 {
-            margin: 20px 0;
-            font-weight: 600;
+            font-size: 2em;
+            text-align: center;
+            margin-top: 50px;
+            color: #fff;
+            text-shadow: 1px 1px 6px rgba(38,38,38,0.2);
+            font-weight: 700;
+        }
+        .logonegro {
+            max-height: 70px;
+            visibility: visible;
+            text-align: center;
+            align-content: center;
+        }
+        .logoblanco {
+            max-height: 70px;
+            display: none;
+            text-align: center;
+            margin-bottom: 10px;
         }
         .main-container {
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            justify-content: center;
+            align-items: flex-center;
             gap: 40px;
-            width: 90%;
-            max-width: 800px;
+            max-width: 90%;
+            flex: 1;
+            margin-top: 25px;
+        }
+        .chatbot-container {
+            width: 400px;
+            height: 600px;
+            background-color: none;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .avatars-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+        }
+        .avatar-container {
+            width: 600px;
+            height: 600px;
+            background-color: var(--gris-oscuro);
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-radius: 20px;
+        }
+        .avatar-container.active {
+            display: flex;
+        }
+        .avatar-container h2 {
+            margin: 0;
+            padding: 10px;
+            font-size: 1.5em;
+            border-radius: 10px;
+            color: #fff;
+        }
+        /* Estilos del Pop-Up */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+        #Gif {
+            width: 70%;
+            height: auto;
+            border-radius: 8px;
+            animation: zoomIn 0.5s ease-in-out;
+        }
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.90);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        .popup-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            width: 550px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        .popup-content h2 {
+            margin-top: 0;
+            color: var(--verde);
+        }
+        .popup-content p {
+            margin: 10px 0;
+            line-height: 1.2;
+        }
+        .popup .continue-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: var(--verde);
+            color: white;
+            border: none;
+            font-weight: bold;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .popup .continue-button:hover {
+            background-color: var(--gris-oscuro);
+        }
+        .popup .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            cursor: pointer;
         }
         .button-column {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            margin: 20px 0;
-        }
-        .button-column a {
-            text-decoration: none;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            height:70%;
+            width: 90%;
         }
         .button-column button {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: #99cc06;
-            color: #fff;
+            background: linear-gradient(to bottom, var(--verde), #b2d83d);
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+            color: white;
             border: none;
-            font-family: Poppins, sans-serif;
-            font-weight: 600;
-            border-radius: 8px;
-            font-size: 18px;
+            font-weight: bold;
+            font-family: 'Poppins', POPPINS, sans-serif;
+            border-radius: 10px;
+            font-size: 20px;
             cursor: pointer;
-            padding: 12px 20px;
-            transition: background 0.3s ease;
-        }
-        .button-column button img {
-            max-height: 24px;
-            display: inline-block;
+            text-align: center;
+            padding: 15px;
+            border-radius: 5px;
+            width: 80%;
+            transition: background-color 0.3s ease;
         }
         .button-column button:hover {
-            background: #85aa05;
+            background-color: var(--gris-oscuro);
         }
-        .avatars-container {
-            position: relative;
-            width: 100%;
-            height: 300px;
+        .button-link {
             display: flex;
-            justify-content: center;
+            width: 80%;
+            max-width: 300px;
+            text-decoration: none;
             align-items: center;
+            justify-content: center;
         }
-        footer {
-            width: 100%;
+        /* Mensaje inferior centrado */
+        .footer-message {
+            position: fixed;
+            left: 50%;
+            bottom: 28px;
+            transform: translateX(-50%);
+            background: rgba(38,38,38, 0.82);
+            color: var(--verde);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1em;
+            padding: 14px 34px;
+            border-radius: 15px;
+            z-index: 200;
+            box-shadow: 0 3px 14px 0px rgba(0,0,0,0.18);
             text-align: center;
-            font-size: 0.8em;
-            color: #262626;
-            padding: 20px 10px;
-            margin-top: auto;
-            font-family: Poppins, sans-serif;
+            font-weight: 400;
+            max-width: 95vw;
+        }
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+                height: auto;
+                background: #000107;
+                padding-bottom: 5px;
+            }
+            .logonegro {
+                max-height: 10px;
+                display:none;
+            }
+            .logoblanco {
+                max-height: 50px;
+                display: inline-block;
+                text-align: center;
+            }
+            .button-container {
+                flex-direction: column;
+                margin: 30px
+            }
+            .main-container {
+                flex-direction: column;
+                align-items: center;
+                width: 90%;
+            }
+            .chatbot-container {
+                width: 99%;
+                height:300px;
+            }
+            .avatar-container {
+                width: 99%;
+                height: 500px;
+                margin-bottom: 5px;
+            }
+            .avatar-container h2 {
+                font-size: 1em;
+            }
+            .avatars-container {
+                width: 100%;
+            }
+            .popup-content {
+                font-size: 0.8em;
+            }
+            h1 {
+                font-size: 1.2em;
+                text-align: center;
+                margin-top: 20px;
+                color: #fff;
+            }
+            .button-column {
+                font-size: 16px;
+                width: 80%;
+            }
+            .footer-message {
+                font-size: 0.75em;
+                padding: 10px 8px;
+                bottom: 8px;
+            }
         }
     </style>
 </head>
 <body>
     <header>
-        <a href="https://ai-academy.doinglobal.com/" target="_blank">
-            <img src="AI-Academy-logo-white.png" alt="AI Academy Logo" style="max-height:60px;">
-        </a>
+       <a href="https://ai-academy.doinglobal.com/" target="_blank"><img class="logonegro" src="AI-Academy-Logo.png" alt="AI Academy Logo"></a>
+       <a href="https://ai-academy.doinglobal.com/" target="_blank"><img class="logoblanco" src="AI-Academy-logo-white.png" alt="AI Academy Logo"></a>
     </header>
     <h1>Consultor en Planes y Modelos de Negocios</h1>
     <div class="main-container">
-        <div class="button-column">
-            <a href="https://drive.google.com/file/d/1YthFxEP1g7ZWCLuOCFLWQCo9gJHxSkV4/view" target="_blank">
-                <button>
-                    <img src="airbnb-logo.png" alt="Logo Airbnb">
-                    Caso Airbnb
-                </button>
-            </a>
-            <a href="https://drive.google.com/file/d/1e2_8mPzwgJj83QDQtSrjuP91sn35xMPT/view" target="_blank">
-                <button>
-                    <img src="uber-logo.png" alt="Logo Uber">
-                    Caso Uber
-                </button>
-            </a>
-            <a href="https://drive.google.com/file/d/1PCQiW1vvaXd3j7s5FCEUO9IjD9hwVuMJ/view" target="_blank">
-                <button>
-                    <img src="netflix-logo.png" alt="Logo Netflix">
-                    Caso Netflix
-                </button>
-            </a>
-            <a href="https://drive.google.com/file/d/1E0QYcAfEYsmhQGJfW8EjS7wL7IABSBsJ/view" target="_blank">
-                <button>
-                    <img src="amazon-logo.png" alt="Logo Amazon">
-                    Caso Amazon
-                </button>
-            </a>
+        <div class="chatbot-container">
+            <div class="button-column">
+                <a href="https://drive.google.com/file/d/1YthFxEP1g7ZWCLuOCFLWQCo9gJHxSkV4/view?usp=sharing" target="_blank" class="button-link">
+                    <button>Caso Airbnb</button>
+                </a>
+                <a href="https://drive.google.com/file/d/1e2_8mPzwgJj83QDQtSrjuP91sn35xMPT/view?usp=sharing" target="_blank" class="button-link">
+                    <button>Caso Uber</button>
+                </a>
+                <a href="https://drive.google.com/file/d/1PCQiW1vvaXd3j7s5FCEUO9IjD9hwVuMJ/view?usp=sharing" target="_blank" class="button-link">
+                    <button>Caso Netflix</button>
+                </a>
+                <a href="https://drive.google.com/file/d/1E0QYcAfEYsmhQGJfW8EjS7wL7IABSBsJ/view?usp=sharing" target="_blank" class="button-link">
+                    <button>Caso Amazon</button>
+                </a>
+            </div>
         </div>
+
         <div class="avatars-container">
-            <!-- HeyGen Avatar Embed -->
-            <script>
-                !function(window){const host="https://labs.heygen.com",url=host+"/guest/streaming-embed?share=eyJxdWFsaXR5IjoiaGlnaCIsImF2YXRhck5hbWUiOiIwYjk5NzgxZDIxM2Y0ODZmODVlZTI3ODg0%0D%0AYTNmMDRiMCIsInByZXZpZXdJbWciOiJodHRwczovL2ZpbGVzMi5oZXlnZW4uYWkvYXZhdGFyL3Yz%0D%0ALzBiOTk3ODFkMjEzZjQ4NmY4NWVlMjc4ODRhM2YwNGIwL2Z1bGwvMi4yL3ByZXZpZXdfdGFyZ2V0%0D%0ALndlYnAiLCJuZWVkUmVtb3ZlQmFja2dyb3VuZCI6ZmFsc2UsImtub3dsZWRnZUJhc2VJZCI6ImUy%0D%0AMzQ0NGY5Y2M5MTQ2NDU5MDA2NGVhYTAyOWFjNDAzIiwidXNlcm5hbWUiOiI5Mzc0NGZkZTc1NGY0%0D%0AY2ZjOTQzNjA2NTU4Y2M3NjZlZSJ9&inIFrame=1",clientWidth=document.body.clientWidth,wrapDiv=document.createElement("div");wrapDiv.id="heygen-streaming-embed";const container=document.createElement("div");container.id="heygen-streaming-container";const stylesheet=document.createElement("style");stylesheet.innerHTML=`
-  #heygen-streaming-embed {
-    z-index: 9999;
-    position: fixed;
-    left: 40px;
-    bottom: 40px;
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    border: 2px solid #fff;
-    box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.12);
-    transition: all linear 0.1s;
-    overflow: hidden;
-    opacity: 0;
-    visibility: hidden;
-  }
-  #heygen-streaming-embed.show {
-    opacity: 1;
-    visibility: visible;
-  }
-  #heygen-streaming-embed.expand {
-    ${clientWidth<540?"height: 266px; width: 96%; left: 50%; transform: translateX(-50%);":"height: 366px; width: calc(366px * 16 / 9);"}
-    border: 0;
-    border-radius: 8px;
-  }
-  #heygen-streaming-container {
-    width: 100%;
-    height: 100%;
-  }
-  #heygen-streaming-container iframe {
-    width: 100%;
-    height: 100%;
-    border: 0;
-  }
-`;const iframe=document.createElement("iframe");iframe.allowFullscreen=!1;iframe.title="Streaming Embed";iframe.role="dialog";iframe.allow="microphone";iframe.src=url;let visible=!1,initial=!1;window.addEventListener("message",(e=>{e.origin===host&&e.data&&e.data.type&&"streaming-embed"===e.data.type&&("init"===e.data.action?(initial=!0,wrapDiv.classList.toggle("show",initial)):"show"===e.data.action?(visible=!0,wrapDiv.classList.toggle("expand",visible)):"hide"===e.data.action&&(visible=!1,wrapDiv.classList.toggle("expand",visible)))}));container.appendChild(iframe);wrapDiv.appendChild(stylesheet);wrapDiv.appendChild(container);document.body.appendChild(wrapDiv)}(globalThis);
-            </script>
+            <div class="avatar-container active" id="avatar1">
+                <h2>Tutor Virtual</h2>
+                <!-- Script del avatar actualizado -->
+                <script>
+                !function(window){
+                    const host="https://labs.heygen.com",
+                    url=host+"/guest/streaming-embed?share=eyJxdWFsaXR5IjoiaGlnaCIsImF2YXRhck5hbWUiOiIwYjk5NzgxZDIxM2Y0ODZmODVlZTI3ODg0%0D%0AYTNmMDRiMCIsInByZXZpZXdJbWciOiJodHRwczovL2ZpbGVzMi5oZXlnZW4uYWkvYXZhdGFyL3Yz%0D%0ALzBiOTk3ODFkMjEzZjQ4NmY4NWVlMjc4ODRhM2YwNGIwL2Z1bGwvMi4yL3ByZXZpZXdfdGFyZ2V0%0D%0ALndlYnAiLCJuZWVkUmVtb3ZlQmFja2dyb3VuZCI6ZmFsc2UsImtub3dsZWRnZUJhc2VJZCI6ImUy%0D%0AMzQ0NGY5Y2M5MTQ2NDU5MDA2NGVhYTAyOWFjNDAzIiwidXNlcm5hbWUiOiI5Mzc0NGZkZTc1NGY0%0D%0AY2ZjOTQzNjA2NTU4Y2M3NjZlZSJ9&inIFrame=1",
+                    clientWidth=document.body.clientWidth,
+                    wrapDiv=document.createElement("div");
+                    wrapDiv.id="heygen-streaming-embed";
+                    const container=document.createElement("div");
+                    container.id="heygen-streaming-container";
+                    const stylesheet=document.createElement("style");
+                    stylesheet.innerHTML=`
+                      #heygen-streaming-embed {
+                        z-index: 9999;
+                        position: fixed;
+                        left: 40px;
+                        bottom: 40px;
+                        width: 200px;
+                        height: 200px;
+                        border-radius: 50%;
+                        border: 2px solid #fff;
+                        box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.12);
+                        transition: all linear 0.1s;
+                        overflow: hidden;
+                        opacity: 0;
+                        visibility: hidden;
+                      }
+                      #heygen-streaming-embed.show {
+                        opacity: 1;
+                        visibility: visible;
+                      }
+                      #heygen-streaming-embed.expand {
+                        ${clientWidth<540?"height: 266px; width: 96%; left: 50%; transform: translateX(-50%);":"height: 366px; width: calc(366px * 16 / 9);"}
+                        border: 0;
+                        border-radius: 8px;
+                      }
+                      #heygen-streaming-container {
+                        width: 100%;
+                        height: 100%;
+                      }
+                      #heygen-streaming-container iframe {
+                        width: 100%;
+                        height: 100%;
+                        border: 0;
+                      }
+                    `;
+                    const iframe=document.createElement("iframe");
+                    iframe.allowFullscreen=!1;
+                    iframe.title="Streaming Embed";
+                    iframe.role="dialog";
+                    iframe.allow="microphone";
+                    iframe.src=url;
+                    let visible=!1,initial=!1;
+                    window.addEventListener("message",(e=>{
+                        e.origin===host&&e.data&&e.data.type&&"streaming-embed"===e.data.type&&(
+                            "init"===e.data.action?(initial=!0,wrapDiv.classList.toggle("show",initial)):
+                            "show"===e.data.action?(visible=!0,wrapDiv.classList.toggle("expand",visible)):
+                            "hide"===e.data.action&&(visible=!1,wrapDiv.classList.toggle("expand",visible))
+                        )
+                    }));
+                    container.appendChild(iframe);
+                    wrapDiv.appendChild(stylesheet);
+                    wrapDiv.appendChild(container);
+                    document.body.appendChild(wrapDiv);
+                }(globalThis);
+                </script>
+            </div>
         </div>
     </div>
-    <footer>
+    <!-- Mensaje fijo al fondo -->
+    <div class="footer-message">
         Este asistente virtual es un prototipo desarrollado en el laboratorio de investigación de AI Academy by doinGlobal. El mismo cometer errores. doinGlobal no utiliza datos de estos recursos para entrenar sus modelos.
-    </footer>
-    <!-- Popup y otros scripts existentes -->
+    </div>
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <span id="closePopup" class="close">&times;</span>
+            <h2>¡Importante!</h2>
+            <p><b>Para interactuar con el Avatar, tenga en cuenta las siguientes indicaciones:</b></p>
+            <p><b>1. Elija el caso de su preferencia:</b> Haga clic en el botón correspondiente y tómese el tiempo necesario para revisar su contenido.</p>
+            <p><b>2. Configure su conversación:</b> Haga clic en <b>"Chat now"</b> y seleccione el idioma <b>"Spanish"</b> para comenzar.</p>
+            <img id="Gif" src="https://i.gifer.com/3OsMY.gif" alt="Ejemplo de Configuración">
+            <p><b>3. Active su micrófono desde el navegador:</b> Para aceptar los permisos, haga clic en <b>"Permitir mientras visitas el sitio"</b>. Este ajuste se realiza por única vez. </p>
+            <p><b>4. Una vez listo, podrá <b>discutir el caso</b> con su Tutor Virtual. </p>
+            <button id="continueButton" class="continue-button">Continuar</button>
+        </div>
+    </div>
+    <script>
+        // Mostrar el pop-up al cargar la página
+        window.addEventListener('load', () => {
+            document.getElementById('popup').style.display = 'flex';
+        });
+
+        // Cerrar el pop-up al hacer clic en el botón de cierre o en "Continuar"
+        document.getElementById('closePopup').addEventListener('click', () => {
+            document.getElementById('popup').style.display = 'none';
+        });
+
+        document.getElementById('continueButton').addEventListener('click', () => {
+            document.getElementById('popup').style.display = 'none';
+        });
+    </script>
 </body>
 </html>
