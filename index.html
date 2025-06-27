@@ -18,13 +18,10 @@
             color: var(--gris-oscuro);
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100vh;
-            background: url('AI-Academy-MGPPIA.png') no-repeat center center fixed;
-            background-size: cover;
+            min-height: 100vh;
+            background: var(--gris-oscuro);
             position: relative;
+            box-sizing: border-box;
         }
         header {
             width: 100%;
@@ -44,8 +41,9 @@
             text-align: center;
             margin-top: 50px;
             color: #fff;
-            text-shadow: 1px 1px 6px rgba(38,38,38,0.2);
             font-weight: 700;
+            letter-spacing: 0.5px;
+            text-shadow: 0 1px 6px rgba(0,0,0,0.20);
         }
         .logonegro {
             max-height: 70px;
@@ -62,16 +60,18 @@
         .main-container {
             display: flex;
             justify-content: center;
-            align-items: flex-center;
+            align-items: flex-start;
             gap: 40px;
             max-width: 90%;
             flex: 1;
             margin-top: 25px;
+            min-height: 600px;
         }
         .chatbot-container {
             width: 400px;
+            min-width: 250px;
             height: 600px;
-            background-color: none;
+            background-color: transparent;
             box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
             display: flex;
             justify-content: center;
@@ -82,21 +82,22 @@
             flex-direction: column;
             gap: 10px;
             align-items: center;
-        }
-        .avatar-container {
             width: 600px;
             height: 600px;
+        }
+        .avatar-container {
+            width: 100%;
+            height: 100%;
             background-color: var(--gris-oscuro);
             box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
-            display: none;
+            display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
             text-align: center;
             border-radius: 20px;
-        }
-        .avatar-container.active {
-            display: flex;
+            position: relative;
+            overflow: hidden;
         }
         .avatar-container h2 {
             margin: 0;
@@ -104,6 +105,17 @@
             font-size: 1.5em;
             border-radius: 10px;
             color: #fff;
+            z-index: 2;
+            background: transparent;
+        }
+        .heygen-embed-wrap {
+            width: 100%;
+            height: calc(100% - 50px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
         }
         /* Estilos del Pop-Up */
         .popup {
@@ -208,23 +220,42 @@
             align-items: center;
             justify-content: center;
         }
-        /* Mensaje inferior centrado */
-        .footer-message {
+        /* Footer fijo */
+        footer {
             position: fixed;
-            left: 50%;
-            bottom: 28px;
-            transform: translateX(-50%);
-            background: rgba(38,38,38, 0.82);
+            left: 0;
+            bottom: 0;
+            width: 100vw;
+            background: rgba(38,38,38, 0.93);
             color: var(--verde);
             font-family: 'Poppins', sans-serif;
-            font-size: 1em;
-            padding: 14px 34px;
-            border-radius: 15px;
-            z-index: 200;
-            box-shadow: 0 3px 14px 0px rgba(0,0,0,0.18);
+            font-size: 0.8em;
+            padding: 8px 4px 6px 4px;
             text-align: center;
             font-weight: 400;
-            max-width: 95vw;
+            z-index: 200;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            box-shadow: 0 0 8px 0px rgba(0,0,0,0.11);
+        }
+        @media (max-width: 1050px) {
+            .main-container {
+                flex-direction: column;
+                align-items: center;
+                min-height: unset;
+            }
+            .avatars-container,
+            .avatar-container {
+                width: 99vw;
+                min-width: 250px;
+                max-width: 100vw;
+                height: 400px;
+            }
+            .chatbot-container {
+                width: 99vw;
+                min-width: 220px;
+                height: 300px;
+            }
         }
         @media (max-width: 600px) {
             header {
@@ -249,22 +280,16 @@
             .main-container {
                 flex-direction: column;
                 align-items: center;
-                width: 90%;
+                width: 98vw;
+                min-height: unset;
             }
-            .chatbot-container {
-                width: 99%;
-                height:300px;
-            }
+            .avatars-container,
             .avatar-container {
-                width: 99%;
-                height: 500px;
-                margin-bottom: 5px;
+                width: 99vw;
+                height: 300px;
             }
             .avatar-container h2 {
                 font-size: 1em;
-            }
-            .avatars-container {
-                width: 100%;
             }
             .popup-content {
                 font-size: 0.8em;
@@ -279,10 +304,9 @@
                 font-size: 16px;
                 width: 80%;
             }
-            .footer-message {
-                font-size: 0.75em;
-                padding: 10px 8px;
-                bottom: 8px;
+            footer {
+                font-size: 0.70em;
+                padding: 6px 2px 5px 2px;
             }
         }
     </style>
@@ -310,83 +334,17 @@
                 </a>
             </div>
         </div>
-
         <div class="avatars-container">
             <div class="avatar-container active" id="avatar1">
                 <h2>Tutor Virtual</h2>
-                <!-- Script del avatar actualizado -->
-                <script>
-                !function(window){
-                    const host="https://labs.heygen.com",
-                    url=host+"/guest/streaming-embed?share=eyJxdWFsaXR5IjoiaGlnaCIsImF2YXRhck5hbWUiOiIwYjk5NzgxZDIxM2Y0ODZmODVlZTI3ODg0%0D%0AYTNmMDRiMCIsInByZXZpZXdJbWciOiJodHRwczovL2ZpbGVzMi5oZXlnZW4uYWkvYXZhdGFyL3Yz%0D%0ALzBiOTk3ODFkMjEzZjQ4NmY4NWVlMjc4ODRhM2YwNGIwL2Z1bGwvMi4yL3ByZXZpZXdfdGFyZ2V0%0D%0ALndlYnAiLCJuZWVkUmVtb3ZlQmFja2dyb3VuZCI6ZmFsc2UsImtub3dsZWRnZUJhc2VJZCI6ImUy%0D%0AMzQ0NGY5Y2M5MTQ2NDU5MDA2NGVhYTAyOWFjNDAzIiwidXNlcm5hbWUiOiI5Mzc0NGZkZTc1NGY0%0D%0AY2ZjOTQzNjA2NTU4Y2M3NjZlZSJ9&inIFrame=1",
-                    clientWidth=document.body.clientWidth,
-                    wrapDiv=document.createElement("div");
-                    wrapDiv.id="heygen-streaming-embed";
-                    const container=document.createElement("div");
-                    container.id="heygen-streaming-container";
-                    const stylesheet=document.createElement("style");
-                    stylesheet.innerHTML=`
-                      #heygen-streaming-embed {
-                        z-index: 9999;
-                        position: fixed;
-                        left: 40px;
-                        bottom: 40px;
-                        width: 200px;
-                        height: 200px;
-                        border-radius: 50%;
-                        border: 2px solid #fff;
-                        box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.12);
-                        transition: all linear 0.1s;
-                        overflow: hidden;
-                        opacity: 0;
-                        visibility: hidden;
-                      }
-                      #heygen-streaming-embed.show {
-                        opacity: 1;
-                        visibility: visible;
-                      }
-                      #heygen-streaming-embed.expand {
-                        ${clientWidth<540?"height: 266px; width: 96%; left: 50%; transform: translateX(-50%);":"height: 366px; width: calc(366px * 16 / 9);"}
-                        border: 0;
-                        border-radius: 8px;
-                      }
-                      #heygen-streaming-container {
-                        width: 100%;
-                        height: 100%;
-                      }
-                      #heygen-streaming-container iframe {
-                        width: 100%;
-                        height: 100%;
-                        border: 0;
-                      }
-                    `;
-                    const iframe=document.createElement("iframe");
-                    iframe.allowFullscreen=!1;
-                    iframe.title="Streaming Embed";
-                    iframe.role="dialog";
-                    iframe.allow="microphone";
-                    iframe.src=url;
-                    let visible=!1,initial=!1;
-                    window.addEventListener("message",(e=>{
-                        e.origin===host&&e.data&&e.data.type&&"streaming-embed"===e.data.type&&(
-                            "init"===e.data.action?(initial=!0,wrapDiv.classList.toggle("show",initial)):
-                            "show"===e.data.action?(visible=!0,wrapDiv.classList.toggle("expand",visible)):
-                            "hide"===e.data.action&&(visible=!1,wrapDiv.classList.toggle("expand",visible))
-                        )
-                    }));
-                    container.appendChild(iframe);
-                    wrapDiv.appendChild(stylesheet);
-                    wrapDiv.appendChild(container);
-                    document.body.appendChild(wrapDiv);
-                }(globalThis);
-                </script>
+                <div class="heygen-embed-wrap" id="heygen-embed-wrap"></div>
             </div>
         </div>
     </div>
-    <!-- Mensaje fijo al fondo -->
-    <div class="footer-message">
+    <!-- Footer fijo -->
+    <footer>
         Este asistente virtual es un prototipo desarrollado en el laboratorio de investigación de AI Academy by doinGlobal. El mismo cometer errores. doinGlobal no utiliza datos de estos recursos para entrenar sus modelos.
-    </div>
+    </footer>
     <div id="popup" class="popup">
         <div class="popup-content">
             <span id="closePopup" class="close">&times;</span>
@@ -414,6 +372,73 @@
         document.getElementById('continueButton').addEventListener('click', () => {
             document.getElementById('popup').style.display = 'none';
         });
+
+        // Inserta el avatar Heygen en el cuadrado de la derecha
+        (function(){
+            const host = "https://labs.heygen.com";
+            const url = host+"/guest/streaming-embed?share=eyJxdWFsaXR5IjoiaGlnaCIsImF2YXRhck5hbWUiOiIwYjk5NzgxZDIxM2Y0ODZmODVlZTI3ODg0%0D%0AYTNmMDRiMCIsInByZXZpZXdJbWciOiJodHRwczovL2ZpbGVzMi5oZXlnZW4uYWkvYXZhdGFyL3Yz%0D%0ALzBiOTk3ODFkMjEzZjQ4NmY4NWVlMjc4ODRhM2YwNGIwL2Z1bGwvMi4yL3ByZXZpZXdfdGFyZ2V0%0D%0ALndlYnAiLCJuZWVkUmVtb3ZlQmFja2dyb3VuZCI6ZmFsc2UsImtub3dsZWRnZUJhc2VJZCI6ImUy%0D%0AMzQ0NGY5Y2M5MTQ2NDU5MDA2NGVhYTAyOWFjNDAzIiwidXNlcm5hbWUiOiI5Mzc0NGZkZTc1NGY0%0D%0AY2ZjOTQzNjA2NTU4Y2M3NjZlZSJ9&inIFrame=1";
+            const wrapDiv = document.createElement("div");
+            wrapDiv.id = "heygen-streaming-embed";
+            wrapDiv.style.width = "94%";
+            wrapDiv.style.height = "95%";
+            wrapDiv.style.margin = "0 auto";
+            wrapDiv.style.background = "transparent";
+            wrapDiv.style.borderRadius = "16px";
+            wrapDiv.style.border = "none";
+            wrapDiv.style.overflow = "hidden";
+            wrapDiv.style.position = "relative";
+            wrapDiv.style.boxShadow = "none";
+            wrapDiv.style.display = "flex";
+            wrapDiv.style.alignItems = "center";
+            wrapDiv.style.justifyContent = "center";
+            const container = document.createElement("div");
+            container.id = "heygen-streaming-container";
+            container.style.width = "100%";
+            container.style.height = "100%";
+            const stylesheet = document.createElement("style");
+            stylesheet.innerHTML = `
+                #heygen-streaming-embed {
+                    width: 100%;
+                    height: 100%;
+                    background: transparent;
+                    border-radius: 16px;
+                    border: none;
+                    box-shadow: none;
+                    overflow: hidden;
+                    position: relative;
+                }
+                #heygen-streaming-container {
+                    width: 100%;
+                    height: 100%;
+                }
+                #heygen-streaming-container iframe {
+                    width: 100%;
+                    height: 100%;
+                    border: 0;
+                    border-radius: 16px;
+                }
+            `;
+            const iframe = document.createElement("iframe");
+            iframe.allowFullscreen = false;
+            iframe.title = "Streaming Embed";
+            iframe.role = "dialog";
+            iframe.allow = "microphone";
+            iframe.src = url;
+            container.appendChild(iframe);
+            wrapDiv.appendChild(stylesheet);
+            wrapDiv.appendChild(container);
+            document.getElementById("heygen-embed-wrap").appendChild(wrapDiv);
+
+            // Animación/expand para embed (opcional: puede omitirse si no se usa expand)
+            let visible = false, initial = false;
+            window.addEventListener("message", (e)=>{
+                if(e.origin===host && e.data && e.data.type && e.data.type==="streaming-embed") {
+                    if(e.data.action==="init") {initial=true; wrapDiv.classList.toggle("show",initial);}
+                    else if(e.data.action==="show") {visible=true; wrapDiv.classList.toggle("expand",visible);}
+                    else if(e.data.action==="hide") {visible=false; wrapDiv.classList.toggle("expand",visible);}
+                }
+            });
+        })();
     </script>
 </body>
 </html>
