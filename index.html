@@ -6,7 +6,6 @@
     <title>IA Tutor Virtual - PCCPMN</title>
     <link rel="icon" href="https://raw.githubusercontent.com/doinGlobalContents/MGPPIA-COORDINACIONDECURSADO/refs/heads/main/Favicon%20AI.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <!-- Fuente Poppins desde Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <style>
   :root {
@@ -26,7 +25,7 @@ body {
     margin: 0;
     padding: 0;
     min-height: 100vh;
-    background: var(--gris-oscuro);
+    background: #fff;
 }
 
 header {
@@ -34,7 +33,7 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(to bottom, #dddddd, #ffffff);
+    background: #fff;
     border-bottom: 1px solid #ddd;
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1), 4px 4px 10px rgba(0, 0, 0, 0.2);
     height: 100px;
@@ -46,10 +45,10 @@ h1 {
     font-size: 2em;
     text-align: center;
     margin: 50px 0 0 0;
-    color: #fff;
+    color: #262626;
     font-weight: 700;
     letter-spacing: 0.5px;
-    text-shadow: 0 1px 6px rgba(0,0,0,0.20);
+    text-shadow: 0 1px 6px rgba(0,0,0,0.14);
 }
 
 .logonegro {
@@ -90,21 +89,23 @@ h1 {
 }
 
 .avatars-container {
-    flex: 2 1 400px;
+    flex: 2 1 600px;
     display: flex;
     flex-direction: column;
     gap: 10px;
     align-items: center;
     width: 100%;
-    max-width: 600px;
-    height: 600px;
+    max-width: 700px;
+    height: 700px;
 }
 
 .avatar-container {
     width: 100%;
     height: 100%;
-    background-color: var(--gris-oscuro);
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    max-width: 700px;
+    max-height: 700px;
+    background-color: #fff;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.08);
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -120,13 +121,13 @@ h1 {
     padding: 10px;
     font-size: 1.5em;
     border-radius: 10px;
-    color: #fff;
+    color: var(--gris-oscuro);
     background: transparent;
 }
 
 .heygen-embed-wrap {
-    width: 94%;
-    height: 95%;
+    width: 98%;
+    height: 98%;
     margin: 0 auto;
     background: transparent;
     border-radius: 16px;
@@ -144,7 +145,7 @@ h1 {
     height: 100%;
     border: 0;
     border-radius: 16px;
-    background: #000; /* fallback color while loading */
+    background: #fff;
 }
 
 /* Pop-Up Styles */
@@ -160,7 +161,6 @@ h1 {
     align-items: center;
     z-index: 10000;
 }
-
 #Gif {
     width: 70%;
     height: auto;
@@ -184,7 +184,7 @@ h1 {
     width: 90vw;
     max-width: 550px;
     text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.13); /* sombra leve */
     position: relative;
 }
 .popup-content h2 {
@@ -257,25 +257,6 @@ h1 {
     background-color: var(--gris-oscuro);
 }
 
-/* Footer fijo */
-footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100vw;
-    background: rgba(38,38,38, 0.93);
-    color: var(--verde);
-    font-family: 'Poppins', sans-serif;
-    font-size: 0.8em;
-    padding: 8px 4px 6px 4px;
-    text-align: center;
-    font-weight: 400;
-    z-index: 200;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    box-shadow: 0 0 8px 0px rgba(0,0,0,0.11);
-}
-
 /* --- Responsive Design --- */
 @media (max-width: 1050px) {
     .main-container {
@@ -310,7 +291,7 @@ footer {
     header {
         flex-direction: column;
         height: auto;
-        background: #000107;
+        background: #fff;
         padding-bottom: 5px;
     }
     .logonegro {
@@ -362,10 +343,6 @@ footer {
         width: 100%;
         gap: 10px;
     }
-    footer {
-        font-size: 0.70em;
-        padding: 6px 2px 5px 2px;
-    }
 }
     </style>
 </head>
@@ -397,20 +374,16 @@ footer {
                 <h2>Tutor Virtual</h2>
                 <div class="heygen-embed-wrap" id="heygen-embed-wrap">
                     <iframe
-                        src="https://labs.heygen.com/guest/streaming-embed?share=eyJxdWFsaXR5IjoiaGlnaCIsImF2YXRhck5hbWUiOiIwYjk5NzgxZDIxM2Y0ODZmODVlZTI3ODg0%0D%0AYTNmMDRiMCIsInByZXZpZXdJbWciOiJodHRwczovL2ZpbGVzMi5oZXlnZW4uYWkvYXZhdGFyL3Yz%0D%0ALzBiOTk3ODFkMjEzZjQ4NmY4NWVlMjc4ODRhM2YwNGIwL2Z1bGwvMi4yL3ByZXZpZXdfdGFyZ2V0%0D%0ALndlYnAiLCJuZWVkUmVtb3ZlQmFja2dyb3VuZCI6ZmFsc2UsImtub3dsZWRnZUJhc2VJZCI6Ijhm%0D%0AZGQxODVmZjEzNTQxNjY5MGNjYjk1MTdkYzI3YTlhIiwidXNlcm5hbWUiOiI5Mzc0NGZkZTc1NGY0%0D%0AY2ZjOTQzNjA2NTU4Y2M3NjZlZSJ9&inIFrame=1"
+                        src="https://labs.heygen.com/guest/streaming-embed?share=eyJxdWFsaXR5IjoiaGlnaCIsImF2YXRhck5hbWUiOiIwYjk5NzgxZDIxM2Y0ODZmODVlZTI3ODg0%0D%0AYTNmMDRiMCIsInByZXZpZXdJbWciOiJodHRwc[...]
                         allow="microphone"
                         title="Streaming Embed"
-                        style="width:100%;height:100%;border:0;border-radius:16px;background:#000;"
+                        style="width:100%;height:100%;border:0;border-radius:16px;background:#fff;"
                         loading="lazy"
                     ></iframe>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Footer fijo -->
-    <footer>
-        Este asistente virtual es un prototipo desarrollado en el laboratorio de investigación de AI Academy by doinGlobal. El mismo cometer errores. doinGlobal no utiliza datos de estos recursos para entrenar sus modelos.
-    </footer>
     <div id="popup" class="popup">
         <div class="popup-content">
             <span id="closePopup" class="close">&times;</span>
@@ -441,4 +414,3 @@ footer {
     </script>
 </body>
 </html>
-
