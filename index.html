@@ -68,7 +68,7 @@ h1 {
 .main-container {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;     /* ⬅ Alinea botones y avatar en vertical */
     gap: 40px;
     width: 100%;
     max-width: 1200px;
@@ -133,10 +133,10 @@ h1 {
     background: #000; /* fallback color while loading */
 }
 
-/* Contenedor nuevo para LiveAvatar */
+/* Contenedor cuadrado para LiveAvatar, recortando laterales grises */
 .liveavatar-wrap {
     width: 94%;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 1 / 1;      /* ⬅ Cuadrado */
     margin: 0 auto 20px;
     border-radius: 16px;
     overflow: hidden;
@@ -146,8 +146,10 @@ h1 {
 
 .liveavatar-wrap iframe {
     position: absolute;
-    inset: 0;
-    width: 100%;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%); /* centra horizontalmente */
+    width: 177%;                 /* ⬅ “zoom” para recortar los lados */
     height: 100%;
     border: 0;
 }
